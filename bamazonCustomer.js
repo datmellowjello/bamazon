@@ -25,3 +25,8 @@ connection.connect(function (err) {
 })
 
 
+function queryItems {
+
+
+    
+}
