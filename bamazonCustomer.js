@@ -6,8 +6,6 @@ var mysql = require("mysql");
 var clientItem;
 var clientQuantity;
 var dbQuantity;
-var totalCost;
-
 
 
 var connection = mysql.createConnection({
@@ -71,7 +69,7 @@ function queryItems () {
         console.log("\n you've chosen item number " + clientItem);
         console.log(" Chosen quantity " + clientQuantity);
     } else {
-        console.log("Come again soon")
+        console.log("come back soon!")
         connection.end()
     }
 
@@ -81,10 +79,6 @@ function queryItems () {
 }
 
 
-//this function will take the inquirer inputs and query that specific item in the sql database
-// then this function will pull the stock_quantity of that queried item
-// and then subtract the customer order from that items stock_quantity
-// then it will return the updated number back to the database  
 function getSelectedItem() {
 connection.query("SELECT stock_quantity FROM products WHERE item_id =" + clientItem, function (err, res) {
 
@@ -103,7 +97,7 @@ if(dbQuantity[i].stock_quantity < userQuantity){
     console.log("______________________________")
 }else{
     getTotalCost()
-    connection.query("UPDATE products SET stock_quantity = " + (dbQuantity[i].stock_quantity - userQuantity) + " WHERE item_id =" + userItem)
+    connection.query("UPDATE products SET stock_quantity = " + (dbQuantity[i].stock_quantity - clientQuantity) + " WHERE item_id =" + clientItem)
 
     
 }
@@ -114,10 +108,10 @@ connection.end();
    
 
 function getTotalCost() {
-connection.query("SELECT price FROM products WHERE item_id =" + userItem, function (err, res) {
+connection.query("SELECT price FROM products WHERE item_id =" + clientItem, function (err, res) {
 var price = res;
 for(x = 0; x < price.length; x++){
-var convert = (price[x].price * userQuantity).toFixed(2)
+var convert = (price[x].price * clientQuantity).toFixed(2)
 console.log(" total cost: $"+ convert)
 console.log(" Your order has been placed")
 console.log("--------------------------------------------------------")
