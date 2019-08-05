@@ -39,3 +39,6 @@ INSERT INTO products(product_name,department_name,price,stock_quantity)
 
 INSERT INTO products(product_name,department_name,price,stock_quantity)
  VALUES("Independent Trucks","Trucks",45,100);
+
+INSERT INTO products(product_name,department_name,price,stock_quantity)
+ VALUES("Ace Trucks","Trucks",45,100);
