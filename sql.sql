@@ -3,17 +3,15 @@ CREATE database bamazon;
 
 USE bamazon;
 
-CREATE TABLE top5000 (
-  position INT NOT NULL,
-  artist VARCHAR(100) NULL,
-  song VARCHAR(100) NULL,
-  year INT NULL,
-  raw_total DECIMAL(10,4) NULL,
-  raw_usa DECIMAL(10,4) NULL,
-  raw_uk DECIMAL(10,4) NULL,
-  raw_eur DECIMAL(10,4) NULL,
-  raw_row DECIMAL(10,4) NULL,
-  PRIMARY KEY (position)
+CREATE TABLE products (
+ item_id INT AUTO_INCREMENT,
+  
+   product_name varchar(100),
+
+   department_name VARCHAR(100), 
+
+   price int,
+
+    stock_quantity int,
 );
 
-SELECT * FROM top5000;
