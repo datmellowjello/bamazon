@@ -2,7 +2,6 @@ var inquirer = require("inquirer");
 
 var mysql = require("mysql");
 
-// global variables for storing item_id and stock_quantity for later checks
 var clientItem;
 var clientQuantity;
 var dbQuantity;
@@ -21,7 +20,6 @@ connection.connect(function (err) {
     if (err) throw err;
     queryItems();
 })
-
 
 function queryItems () {
     connection.query("SELECT * FROM products", function (err, res) {
@@ -45,8 +43,8 @@ function queryItems () {
                     name: "id"
                 },
                 {
-                    type: "number",
-                    message: "How many do you which to purchase?",
+                    type: "input",
+                    message: "How many do you want to purchase?",
                     name: 'quantity'
                 },
                 {
@@ -66,7 +64,7 @@ function queryItems () {
         
         getSelectedItem()
 
-        console.log("\n you've chosen item number " + clientItem);
+        console.log("\n you've chosen " + clientItem);
         console.log(" Chosen quantity " + clientQuantity);
     } else {
         console.log("come back soon!")
@@ -82,21 +80,15 @@ function queryItems () {
 function getSelectedItem() {
 connection.query("SELECT stock_quantity FROM products WHERE item_id =" + clientItem, function (err, res) {
 
-//this variable is global 
 dbQuantity = res
+for (i = 0; i < dbQuantity; i++) {
 
-// when the item is queried above, ite returns it in an array object 
-// this for loop pulls the stock_quantity from that object so it can be used
-for (i = 0; i < dbQuantity.length; i++) {
-// this if statment compares the database quantity against the customer request
-// if the customer request is > than the database quantity it will return Insufficient quantity... and then end the connection 
-// without changing any data
-if(dbQuantity[i].stock_quantity < userQuantity){
+if(dbQuantity[i].stock_quantity < clientQuantity){
 
     console.log("Insufficient quantity!")
     console.log("______________________________")
 }else{
-    getTotalCost()
+    getTotalCost();
     connection.query("UPDATE products SET stock_quantity = " + (dbQuantity[i].stock_quantity - clientQuantity) + " WHERE item_id =" + clientItem)
 
     
